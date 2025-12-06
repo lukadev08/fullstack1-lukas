@@ -12,8 +12,8 @@
 */
 package br.com.jtech.tasklist.adapters.input.protocols;
 
-import br.com.jtech.tasklist.application.core.domains.Tasklist;
 import br.com.jtech.tasklist.adapters.output.repositories.entities.TasklistEntity;
+import br.com.jtech.tasklist.application.core.domains.Tasklist;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -37,12 +38,22 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TasklistResponse implements Serializable {
+
     private String id;
+    private String title;
+    private String description;
+    private String status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     List<TasklistResponse> responses;
 
     public static TasklistResponse of(Tasklist tasklist) {
         return TasklistResponse.builder()
                 .id(tasklist.getId())
+                .title(tasklist.getTitle())
+                .description(tasklist.getDescription())
+                .status(tasklist.getStatus().name())
                 .build();
     }
 
@@ -54,8 +65,9 @@ public class TasklistResponse implements Serializable {
     }
 
     public static TasklistResponse of(TasklistEntity entity) {
-        var response = new TasklistResponse();
+        TasklistResponse response = new TasklistResponse();
         BeanUtils.copyProperties(entity, response);
+        response.setId(entity.getId() != null ? entity.getId().toString() : null);
         return response;
     }
 }

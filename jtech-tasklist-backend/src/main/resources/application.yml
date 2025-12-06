@@ -6,23 +6,23 @@ spring:
     active: ${PROFILE:dev}
   datasource:
     driverClassName: org.postgresql.Driver
-    url: 
-      jdbc:postgresql://${DS_URL:localhost}:${DS_PORT:5432}/${DS_DATABASE:sansys_database}
+    url:
+      jdbc:postgresql://${DS_URL:localhost}:${DS_PORT:5432}/${DS_DATABASE:jtech_tasklist}
     password: ${DS_PASS:postgres}
     username: ${DS_USER:postgres}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: 'true'
     hibernate:
-      ddl-auto: none
-    generate-ddl: 'false'
+      ddl-auto: update
+    generate-ddl: 'true'
 management:
   endpoints:
     web:
       exposure:
         include: '*'
 server:
-  port: ${PORT:0}
+  port: ${PORT:8080}
   forward-headers-strategy: framework
 logging:
   level:

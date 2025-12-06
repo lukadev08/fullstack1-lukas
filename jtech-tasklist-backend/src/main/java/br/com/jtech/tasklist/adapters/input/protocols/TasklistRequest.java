@@ -12,7 +12,10 @@
  */
 package br.com.jtech.tasklist.adapters.input.protocols;
 
+import br.com.jtech.tasklist.application.core.domains.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +35,18 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TasklistRequest implements Serializable {
+
     private String id;
+
+    @NotBlank(message = "A title is required")
+    private String title;
+
+    @NotBlank(message = "A description is required")
+    @Size(max = 1000, message = "The description must be at most 1000 characters long")
+    private String description;
+
+    @NotBlank(message = "A status is required and must be PENDING, IN_PROGRESS, COMPLETED or CANCELLED")
+    private TaskStatus status;
 
     private List<TasklistRequest> requests;
 }

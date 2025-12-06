@@ -9,11 +9,10 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with J-Tech.
  */
-package br.com.jtech.tasklist.config.infra.handlers;
-
-
+package br.com.jtech.tasklist.config.infra.utils;
 
 import br.com.jtech.tasklist.config.infra.exceptions.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -46,6 +45,15 @@ public class GlobalExceptionHandler {
         error.setMessage("Error on request");
         error.setTimestamp(LocalDateTime.now());
         error.setSubErrors(subErrors(ex));
+        error.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(error);
+    }
+
+    @ExceptionHandler(TasklistNotFoundException.class)
+    public ResponseEntity<ApiError> handleTasklistNotFound(TasklistNotFoundException ex, HttpServletRequest request) {
+        ApiError error = new ApiError(HttpStatus.NOT_FOUND);
+        error.setMessage(ex.getMessage());
+        error.setTimestamp(LocalDateTime.now());
         error.setDebugMessage(ex.getLocalizedMessage());
         return buildResponseEntity(error);
     }

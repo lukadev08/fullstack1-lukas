@@ -12,10 +12,14 @@
 */
 package br.com.jtech.tasklist.adapters.output;
 
+import br.com.jtech.tasklist.adapters.output.repositories.TasklistRepository;
+import br.com.jtech.tasklist.adapters.output.repositories.entities.TasklistEntity;
 import br.com.jtech.tasklist.application.core.domains.Tasklist;
 import br.com.jtech.tasklist.application.ports.output.CreateTasklistOutputGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
 * class TasklistAdapter 
@@ -26,12 +30,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CreateTasklistAdapter implements CreateTasklistOutputGateway {
 
-    // private final TasklistRepository repository;
+     private final TasklistRepository repository;
 
     @Override
     public Tasklist create(Tasklist tasklist) {
-       // return this.repository.save(tasklist);
-          return tasklist;
+
+        TasklistEntity newEntity = tasklist.toEntity();
+        newEntity.setCreatedAt(LocalDateTime.now());
+        newEntity.setUpdatedAt(LocalDateTime.now());
+        TasklistEntity savedEntity = repository.save(newEntity);
+
+        return Tasklist.of(savedEntity);
     }
 
 }

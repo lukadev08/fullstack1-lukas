@@ -1,1 +1,4 @@
 rootProject.name = 'tasklist'
+
+include 'src:test:adapters'
+include 'src:test:java:br:com:jtech:tasktests'

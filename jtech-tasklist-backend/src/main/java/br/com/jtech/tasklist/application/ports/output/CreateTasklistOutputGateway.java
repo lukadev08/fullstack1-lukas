@@ -20,5 +20,6 @@ import br.com.jtech.tasklist.application.core.domains.Tasklist;
 * user angelo.vicente 
 */
 public interface CreateTasklistOutputGateway {
+
     Tasklist create(Tasklist tasklist);
 }

@@ -16,19 +16,19 @@ package br.com.jtech.tasklist.application.core.usecases;
 import br.com.jtech.tasklist.application.core.domains.Tasklist;
 import br.com.jtech.tasklist.application.ports.input.CreateTasklistInputGateway;
 import br.com.jtech.tasklist.application.ports.output.CreateTasklistOutputGateway;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
 * class TasklistUseCase  
 * 
 * user angelo.vicente  
 */
+@Service
+@RequiredArgsConstructor
 public class CreateTasklistUseCase implements CreateTasklistInputGateway {
 
     private final CreateTasklistOutputGateway createTasklistOutputGateway;
-
-    public CreateTasklistUseCase(CreateTasklistOutputGateway createTasklistOutputGateway) {
-        this.createTasklistOutputGateway = createTasklistOutputGateway;
-     }
 
     public Tasklist create(Tasklist tasklist) {
         return createTasklistOutputGateway.create(tasklist);
